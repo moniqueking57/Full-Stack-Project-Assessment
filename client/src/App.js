@@ -61,4 +61,10 @@ function App() {
   );
 }
 
+//NOT SURE ABOUT THIS SECTION
+fetch('/videos').then((response) => console.log(response));
+fetch('/videos', {
+  method: 'post',
+}).then((response) => console.log(response));
+
 export default App;
