@@ -1,13 +1,17 @@
 const express = require('express');
 const {Pool} = require('pg');
+
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 const dbConfig = {
   host: 'localhost',
   port: 5432,
   user: 'moniqueking',
   password: '',
-  database: 'video_data',
+  database: 'videos',
 };
 
 const pool = new Pool(dbConfig);
@@ -26,19 +30,18 @@ app.get('/', (req, res) => {
 });
 
 app.get('/videos', function (req, res) {
-  pool.query('SELECT * FROM videos', (error, result) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.send(result.rows);
-    }
-  });
+  pool
+    .query('SELECT * FROM videos')
+    .then((result) => res.json(result.rows))
+    .catch((e) => console.error(e));
 });
 
+//DOESN'T WORK
 app.post('/videos', (req, res) => {
-  const newVideo = req.body.video;
+  // const newVideo = req.body;
+  const {videos} = req.body;
   pool
-    .query('SELECT * FROM videos WHERE title=$1', [newVideo])
+    .query('SELECT * FROM videos WHERE videos.title=$1', [videos])
     .then((result) => {
       if (result.rows.length > 0) {
         return res
@@ -47,7 +50,7 @@ app.post('/videos', (req, res) => {
       } else {
         const query = 'INSERT INTO videos (title) VALUES ($1)';
         pool
-          .query(query, [newVideo])
+          .query(query, [videos])
           .then(() => res.send('Video created!'))
           .catch((e) => console.error({message: 'Video could not be saved'}));
       }
@@ -67,7 +70,7 @@ app.get('/videos/:id', function (req, res) {
 });
 
 app.delete('/videos/:videosId', (req, res) => {
-  const id = parseInt(req.params.customerId);
+  const id = parseInt(req.params.videosId);
   if (isNaN(id)) {
     res.status(400).send({message: 'Video could not be deleted'});
   } else {
