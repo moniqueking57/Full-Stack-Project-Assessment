@@ -1,0 +1,26 @@
+{
+  "name": "Full-Stack-Project-Assessment",
+  "version": "1.0.0",
+  "description": "## Background",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moniqueking57/Full-Stack-Project-Assessment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moniqueking57/Full-Stack-Project-Assessment/issues"
+  },
+  "homepage": "https://github.com/moniqueking57/Full-Stack-Project-Assessment#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0"
+  }
+}

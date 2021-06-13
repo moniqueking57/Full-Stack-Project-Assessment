@@ -1,5 +1,6 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
+import axios from 'axios';
 import example from './exampleresponse.json';
 import Video from './video.js';
 
@@ -42,6 +43,17 @@ function App() {
     console.log(newVideos);
     setVideos(newVideos);
   }
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/videos')
+      .then((response) => setVideos(response.data));
+  }, []);
+
+  // axios
+  //   .get('http://localhost:5000/videos/id')
+  //   .then((response) => console.log(response.data));
+
   return (
     <div className="App">
       <header className="App-header">
@@ -49,10 +61,10 @@ function App() {
       </header>
       {videos.map((item) => (
         <Video
+          rating={item.rating}
           title={item.title}
           id={item.id}
           url={item.url}
-          rating={item.rating}
           handleLike={handleLike}
           handleDislike={handleDislike}
         />
@@ -62,9 +74,23 @@ function App() {
 }
 
 //NOT SURE ABOUT THIS SECTION
-fetch('/videos').then((response) => console.log(response));
-fetch('/videos', {
-  method: 'post',
-}).then((response) => console.log(response));
+// fetch('/videos').then((response) => console.log(response));
+
+// fetch('/videos', {
+//   method: 'post',
+// }).then((response) => console.log(response));
+
+// function videos(props) {
+//   const [videos, setVideos] = useState(null);
+//   useEffect(() => {
+//     fetch(`/videos/${props.videosId}/`)
+//       .then((response) => {
+//         return response.json();
+//       })
+//       .then((videos) => {
+//         setVideos(videos);
+//       });
+//   }, [props.videosId]);
+// }
 
 export default App;
