@@ -1,12 +1,11 @@
 import {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
-import example from './exampleresponse.json';
+//import example from './exampleresponse.json';
 import Video from './video.js';
 
 function App() {
-  console.log(example);
-  const [videos, setVideos] = useState(example);
+  const [videos, setVideos] = useState([]);
   function handleLike(e, id) {
     const index = videos.findIndex((item) => item.id === id);
     const patchedVideo = {...videos[index]};
@@ -64,7 +63,7 @@ function App() {
           rating={item.rating}
           title={item.title}
           id={item.id}
-          url={item.url}
+          url={item.link}
           handleLike={handleLike}
           handleDislike={handleDislike}
         />

@@ -8,16 +8,24 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 const dbConfig = {
-  host: 'localhost',
-  port: 5432,
-  user: 'moniqueking',
-  password: '',
-  database: 'videos',
+  connectionString: `postgres://efgtfwymxyzbmq:be7b25e752ca6635418f5ab22f241ab984e2a3bc231cb726868f63bb44d9edf8@ec2-54-220-170-192.eu-west-1.compute.amazonaws.com:5432/d8r40s720q233s
+`,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 const pool = new Pool(dbConfig);
 
 const port = process.env.PORT || 5000;
+
+pool
+  .query(
+    `
+SELECT * FROM videos;
+`
+  )
+  .then((response) => console.log(response.rows));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
